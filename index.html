@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Óscar Domínguez Ocaña · iOS Software Engineer</title>
 <meta name="description" content="Óscar Domínguez Ocaña, iOS Software Engineer especializado en Swift y Xcode, con máster en Inteligencia Artificial.">
+<script>
+  // Idioma inicial (antes de pintar, para evitar parpadeos): el guardado, o el del navegador
+  (function () {
+    var l = '';
+    try { l = localStorage.getItem('cv-lang') || ''; } catch (e) {}
+    if (l !== 'es' && l !== 'en') l = ((navigator.language || 'es').toLowerCase().indexOf('es') === 0) ? 'es' : 'en';
+    document.documentElement.lang = l;
+    document.documentElement.classList.add('js');
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;800&display=swap" rel="stylesheet">
@@ -36,22 +46,30 @@
   :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
   .wrap { max-width: 1120px; margin: 0 auto; padding: 0 clamp(18px, 4vw, 40px); }
 
+  /* Idiomas: se muestra solo el bloque del idioma activo */
+  html[lang="en"] .es, html[lang="es"] .en { display: none !important; }
+
   /* Navegación flotante */
   .top { position: sticky; top: 12px; z-index: 10; padding: 0 clamp(12px, 3vw, 24px); margin-top: 12px; }
-  .pill { max-width: 1072px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  .pill { max-width: 1072px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px;
     background: rgba(255,255,255,.78); backdrop-filter: blur(14px) saturate(1.4); -webkit-backdrop-filter: blur(14px) saturate(1.4);
     border: 1px solid rgba(255,255,255,.9); border-radius: 999px; padding: 6px 8px 6px 20px; box-shadow: var(--shadow); }
   .brand { font-weight: 800; text-decoration: none; color: var(--ink); white-space: nowrap; letter-spacing: -.01em; }
-  .pill nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+  .pill nav { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; min-width: 0; }
   .pill nav a { padding: 8px 14px; border-radius: 999px; text-decoration: none; color: var(--muted); font-weight: 500; font-size: .92rem; white-space: nowrap; }
   .pill nav a:hover { color: var(--ink); }
   .pill nav a.on { color: #fff; background: var(--ink); font-weight: 600; }
+  .lang { display: flex; flex: none; background: var(--bg); border-radius: 999px; padding: 3px; }
+  .lang button { font: inherit; font-weight: 700; font-size: .8rem; border: 0; background: transparent; color: var(--muted); padding: 6px 12px; border-radius: 999px; cursor: pointer; }
+  .lang button[aria-pressed="true"] { background: var(--ink); color: #fff; }
 
   /* Hero */
   .hero { display: grid; grid-template-columns: 1.6fr 1fr; gap: clamp(24px, 5vw, 72px); padding: clamp(40px, 8vw, 104px) 0 clamp(28px, 5vw, 56px); align-items: center; }
   .hero h1 { font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1; letter-spacing: -.04em; font-weight: 800; margin: 0 0 20px; }
   .role { font-size: clamp(1.15rem, 2.3vw, 1.5rem); font-weight: 600; color: var(--accent); margin: 0 0 14px; }
   .lead { color: var(--muted); max-width: 35em; margin: 0 0 22px; font-size: 1.1rem; }
+  .lead a, .facts a, .org a { color: var(--ink); font-weight: 600; text-decoration-color: var(--accent); text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .lead a:hover, .facts a:hover, .org a:hover { color: var(--accent); }
   .stack { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0; margin: 0 0 28px; }
   .stack li { font-weight: 600; font-size: .9rem; padding: 5px 14px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
   .stack li.main { background: var(--ink); border-color: var(--ink); color: #fff; }
@@ -59,9 +77,15 @@
   .btn { display: inline-block; padding: 12px 22px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 1.5px solid var(--ink); color: var(--ink); background: var(--card); transition: transform .15s, box-shadow .15s; }
   .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px -10px rgba(17,21,29,.35); }
   .btn.dark { background: var(--ink); color: #fff; }
+  .actions { align-items: center; }
+  .icon-btn { display: grid; place-items: center; width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid var(--ink); color: var(--ink); background: var(--card); transition: transform .15s, box-shadow .15s; }
+  .icon-btn svg { width: 20px; height: 20px; }
+  .icon-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px -10px rgba(17,21,29,.35); }
+  .sub-h { font-size: 1.05rem; font-weight: 600; color: var(--muted); margin: 0 0 14px; }
+  .panel + .sub-h { margin-top: 40px; }
 
   .profile { background: var(--card); border: 1px solid var(--line); border-radius: 28px; padding: 24px; box-shadow: var(--shadow); }
-  .photo { width: 112px; height: 112px; border-radius: 50%; object-fit: cover; object-position: center 28%; border: 4px solid #fff; box-shadow: 0 0 0 1px var(--line), 0 10px 24px -10px rgba(17,21,29,.35); background: var(--line); margin-bottom: 18px; }
+  .photo { width: 136px; height: 136px; border-radius: 50%; object-fit: cover; object-position: center 28%; border: 4px solid #fff; box-shadow: 0 0 0 1px var(--line), 0 10px 24px -10px rgba(17,21,29,.35); background: var(--line); margin-bottom: 18px; }
   .facts { margin: 0; display: grid; gap: 12px; }
   .facts div { border-top: 1px solid var(--line); padding-top: 10px; }
   .facts dt { font-size: .8rem; color: var(--muted); }
@@ -108,7 +132,6 @@
   .job summary::-webkit-details-marker { display: none; }
   .job h3 { margin: 0; font-size: 1.18rem; letter-spacing: -.01em; }
   .job .org { color: var(--muted); font-weight: 500; }
-  .job .when { color: var(--muted); font-size: .92rem; text-align: right; white-space: nowrap; }
   .job summary::after { content: "+"; position: absolute; top: 20px; right: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); display: grid; place-items: center; font-weight: 600; line-height: 1; transition: background .15s, border-color .15s; }
   .job summary:hover::after { background: var(--accent-soft); border-color: var(--accent); }
   .job[open] summary::after { content: "–"; background: var(--ink); border-color: var(--ink); color: #fff; }
@@ -120,13 +143,14 @@
   .tags li.on { background: var(--hl); border-color: #E8D27A; font-weight: 600; }
   .filtering .job:not(.match), .filtering .project:not(.match) { opacity: .32; }
 
-  /* Proyectos */
+  /* Proyectos y publicación */
   .projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
   .project { background: var(--card); border: 1px solid var(--line); border-radius: 28px; padding: 26px; display: flex; flex-direction: column; gap: 10px; box-shadow: var(--shadow); transition: opacity .25s, border-color .15s, transform .15s; }
   .project:hover { border-color: var(--accent); transform: translateY(-3px); }
   .project .kind { align-self: flex-start; font-size: .8rem; font-weight: 600; color: var(--accent); background: var(--accent-soft); padding: 3px 12px; border-radius: 999px; }
   .project h3 { margin: 0; font-size: 1.18rem; line-height: 1.3; letter-spacing: -.01em; }
   .project p { margin: 0; color: var(--muted); flex: 1; font-size: .96rem; }
+  .project p b { color: var(--ink); }
   .links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
   .doc { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: .9rem; text-decoration: none; color: var(--ink); border: 1.5px solid var(--line); border-radius: 999px; padding: 7px 14px; transition: border-color .15s, background .15s; }
   .doc:hover { border-color: var(--accent); background: var(--accent-soft); }
@@ -134,10 +158,23 @@
 
   /* Formación */
   .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; }
-  .entry { padding: 14px 0; border-top: 1px solid var(--line); }
+  /* Estilo único para todas las fechas */
+  .date, .job .when { font-size: .82rem; font-weight: 600; line-height: 1.5; color: var(--accent); background: var(--accent-soft); padding: 4px 13px; border-radius: 999px; white-space: nowrap; justify-self: end; align-self: start; }
+  .acad { display: grid; gap: 18px; }
+  .acad .panel { padding: clamp(22px, 3.5vw, 34px); }
+  .studies h3 { font-size: 1.25rem; margin-bottom: 16px; }
+  .study-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .study { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: start; background: var(--bg); border-radius: 20px; padding: 20px 22px; }
+  .study b { display: block; font-size: 1.12rem; line-height: 1.35; letter-spacing: -.01em; }
+  .study .sub { display: block; color: var(--muted); font-size: .95rem; margin-top: 2px; }
+  .duo { display: grid; grid-template-columns: 1.2fr 1fr; gap: 18px; align-items: stretch; }
+  @media (max-width: 900px) { .duo { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) { .study-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .study, .entry { grid-template-columns: 1fr; } .date { justify-self: start; order: -1; } }
+  .entry { display: grid; grid-template-columns: 1fr auto; gap: 4px 14px; align-items: start; padding: 14px 0; border-top: 1px solid var(--line); }
   .entry:first-of-type { border-top: 0; padding-top: 0; }
   .entry b { display: block; line-height: 1.4; }
-  .entry span { color: var(--muted); font-size: .93rem; }
+  .entry .sub { display: block; color: var(--muted); font-size: .93rem; }
   .cols h3 { margin: 0 0 12px; font-size: 1.05rem; }
   abbr { text-decoration: none; cursor: help; }
 
@@ -151,19 +188,41 @@
   .toast[hidden] { display: none; }
   .toast button { font: inherit; font-weight: 600; background: #fff; color: var(--ink); border: 0; border-radius: 999px; padding: 6px 14px; cursor: pointer; }
 
+  /* Efecto de aterrizaje */
+  @keyframes up { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+  @keyframes down { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: none; } }
+  @keyframes pop { from { opacity: 0; transform: translateY(24px) scale(.95); } to { opacity: 1; transform: none; } }
+  .pill { animation: down .6s cubic-bezier(.2,.7,.2,1) both; }
+  .hero > div > * { animation: up .8s cubic-bezier(.2,.7,.2,1) both; }
+  .hero > div > :nth-child(1) { animation-delay: .10s; }
+  .hero > div > :nth-child(2) { animation-delay: .20s; }
+  .hero > div > :nth-child(3) { animation-delay: .30s; }
+  .hero > div > :nth-child(4) { animation-delay: .40s; }
+  .hero > div > :nth-child(5) { animation-delay: .50s; }
+  .hero > div > :nth-child(6) { animation-delay: .60s; }
+  .profile { animation: pop .9s cubic-bezier(.2,.7,.2,1) .35s both; }
+  /* Las secciones aparecen al hacer scroll */
+  .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  .js .reveal.in { opacity: 1; transform: none; }
+
   @media (max-width: 820px) {
     .hero { grid-template-columns: 1fr; }
     .profile { max-width: 440px; }
     .platforms { grid-template-columns: 1fr; }
     .job summary { grid-template-columns: 1fr; }
-    .job .when { text-align: left; white-space: normal; }
+    .job .when { justify-self: start; white-space: normal; }
     .brand { display: none; }
     .pill { padding-left: 8px; }
   }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; animation: none !important; }
+    .js .reveal { opacity: 1; transform: none; }
+  }
   @media print {
-    .top, .hint, .actions, .toast, .links, .platforms { display: none; }
+    .top, .hint, .actions, .quick, .toast, .links, .platforms { display: none; }
     body { background: #fff; }
+    .js .reveal { opacity: 1 !important; transform: none !important; }
     .panel, .profile, .project { box-shadow: none; border-color: #ccc; }
   }
 </style>
@@ -173,15 +232,19 @@
 <header class="top">
   <div class="pill">
     <a class="brand" href="#inicio">Óscar Domínguez</a>
-    <nav aria-label="Principal" id="nav">
-      <a href="#perfil">Perfil</a>
-      <a href="#habilidades">Habilidades</a>
-      <a href="#experiencia">Experiencia</a>
-      <a href="#proyectos">Proyectos</a>
-      <a href="#publicaciones">Publicación</a>
-      <a href="#formacion">Formación</a>
-      <a href="#contacto">Contacto</a>
+    <nav id="nav" data-aria="Principal|Main">
+      <a href="#perfil"><span class="es">Perfil</span><span class="en">Profile</span></a>
+      <a href="#habilidades"><span class="es">Habilidades</span><span class="en">Skills</span></a>
+      <a href="#experiencia"><span class="es">Experiencia</span><span class="en">Experience</span></a>
+      <a href="#academica"><span class="es">Académica</span><span class="en">Academic</span></a>
+      <a href="#proyectos"><span class="es">Proyectos</span><span class="en">Projects</span></a>
+      <a href="#publicaciones"><span class="es">Publicaciones</span><span class="en">Publications</span></a>
+      <a href="#contacto"><span class="es">Contacto</span><span class="en">Contact</span></a>
     </nav>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button type="button" data-lang="es" aria-pressed="true">ES</button>
+      <button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
   </div>
 </header>
 
@@ -191,46 +254,51 @@
     <div>
       <h1>Óscar Domínguez Ocaña</h1>
       <p class="role">iOS Software Engineer</p>
-      <p class="lead">iOS Software Engineer con más de seis años desarrollando apps nativas para iPhone con Swift y Xcode, y experiencia también en Android y React Native. Graduado en Ingeniería Informática y con dos másteres por la <abbr title="Universidad de Castilla-La Mancha">UCLM</abbr>: Ingeniería Informática (MUII) e Inteligencia Artificial (MIA). Hoy trabajo en la app iOS de Massimo Dutti (Inditex) desde Nomasystems, con foco en datos y analítica.</p>
-      <ul class="stack" aria-label="Tecnologías principales">
+      <p class="lead">
+        <span class="es">iOS Software Engineer con más de seis años desarrollando apps nativas para iPhone con Swift y Xcode, y experiencia también en Android y React Native. Graduado en Ingeniería Informática y con dos másteres por la <abbr class="uclm">UCLM</abbr>: Ingeniería Informática (MUII) e Inteligencia Artificial (MIA). Hoy trabajo en la app iOS de Massimo Dutti (<a href="https://www.inditex.com" target="_blank" rel="noopener">Inditex</a>) desde <a href="https://www.nomasystems.com" target="_blank" rel="noopener">Nomasystems</a>, con foco en datos y analítica.</span>
+        <span class="en">iOS Software Engineer with more than six years building native iPhone apps with Swift and Xcode, plus experience in Android and React Native. Bachelor's degree in Computer Engineering and two master's degrees from <abbr class="uclm">UCLM</abbr>: Computer Engineering (MUII) and Artificial Intelligence (MIA). I currently work on the Massimo Dutti (<a href="https://www.inditex.com" target="_blank" rel="noopener">Inditex</a>) iOS app at <a href="https://www.nomasystems.com" target="_blank" rel="noopener">Nomasystems</a>, focused on data and analytics.</span>
+      </p>
+      <ul class="stack" data-aria="Tecnologías principales|Main technologies">
         <li class="main">iOS</li>
         <li class="main">Swift</li>
         <li class="main">Xcode</li>
-        <li>ARKit</li>
-        <li>CocoaPods</li>
-        <li>Firebase</li>
       </ul>
       <div class="actions">
-        <a class="btn dark" href="#contacto">Contactar</a>
-        <a class="btn" href="https://www.linkedin.com/in/oscardominguezocana/">LinkedIn</a>
-        <a class="btn" href="#experiencia">Ver experiencia</a>
+        <a class="btn dark" href="#experiencia"><span class="es">Ver experiencia</span><span class="en">View experience</span></a>
+        <a class="btn" href="#contacto"><span class="es">Contactar</span><span class="en">Contact me</span></a>
+        <a class="icon-btn" href="https://www.linkedin.com/in/oscardominguezocana/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11.5H3zM9.5 9.75h3.8v1.6h.06c.53-1 1.84-2.05 3.79-2.05 4.05 0 4.8 2.66 4.8 6.13v5.77h-4v-5.12c0-1.22-.02-2.79-1.7-2.79-1.7 0-1.96 1.33-1.96 2.7v5.21h-4z"/></svg></a>
       </div>
     </div>
-    <aside class="profile" aria-label="Datos rápidos">
-      <img class="photo" src="foto.jpg" alt="Retrato de Óscar Domínguez Ocaña" width="112" height="112">
+    <aside class="profile" data-aria="Datos rápidos|Quick facts">
+      <img class="photo" src="foto.jpg" data-alt="Retrato de Óscar Domínguez Ocaña|Portrait of Óscar Domínguez Ocaña" alt="Retrato de Óscar Domínguez Ocaña" width="136" height="136">
       <dl class="facts">
-        <div><dt>Ubicación</dt><dd>Valencia, España</dd></div>
-        <div><dt>Empresa actual</dt><dd>Nomasystems S.L.</dd></div>
-        <div><dt>Idiomas</dt><dd>Español · Inglés B1</dd></div>
+        <div><dt><span class="es">Ubicación</span><span class="en">Location</span></dt><dd><span class="es">Valencia, España</span><span class="en">Valencia, Spain</span></dd></div>
+        <div><dt><span class="es">Empresa actual</span><span class="en">Current company</span></dt><dd><a href="https://www.nomasystems.com" target="_blank" rel="noopener">Nomasystems S.L.</a></dd></div>
       </dl>
     </aside>
   </div>
 
-  <section id="perfil">
-    <div class="head"><h2>Perfil profesional</h2></div>
+  <section id="perfil" class="reveal">
+    <div class="head"><h2><span class="es">Perfil profesional</span><span class="en">Professional profile</span></h2></div>
     <div class="panel">
-      <p>Mi especialidad es iOS: Swift, Xcode, ARKit y el ecosistema de Apple. También he trabajado con Android y React Native, siempre en equipos ágiles y distribuidos. Mi base académica (grado con mención en Ingeniería de Software y dos másteres) me ha llevado a combinar el desarrollo móvil con IA, realidad virtual y realidad aumentada.</p>
-      <p>Ahora me centro en la calidad del dato: integro sistemas de analítica, reviso el etiquetado de eventos y valido la información para que producto y negocio decidan con datos fiables.</p>
-      <div class="platforms" role="group" aria-label="Plataformas">
+      <p>
+        <span class="es">Mi especialidad es iOS: Swift, Xcode, ARKit y el ecosistema de Apple. También he trabajado con Android y React Native, siempre en equipos ágiles y distribuidos. Mi base académica (grado con mención en Ingeniería de Software y dos másteres) me ha llevado a combinar el desarrollo móvil con IA, realidad virtual y realidad aumentada.</span>
+        <span class="en">My specialty is iOS: Swift, Xcode, ARKit and the Apple ecosystem. I have also worked with Android and React Native, always in agile, distributed teams. My academic background (a degree with a specialisation in Software Engineering and two master's degrees) has led me to combine mobile development with AI, virtual reality and augmented reality.</span>
+      </p>
+      <p>
+        <span class="es">Ahora me centro en la calidad del dato: integro sistemas de analítica, reviso el etiquetado de eventos y valido la información para que producto y negocio decidan con datos fiables.</span>
+        <span class="en">Right now I focus on data quality: I integrate analytics systems, review event tagging and validate the information so product and business teams can decide with reliable data.</span>
+      </p>
+      <div class="platforms" role="group" data-aria="Plataformas|Platforms">
         <button class="plat ios" type="button" data-filter="iOS" aria-pressed="false">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
           <span class="pn">iOS</span>
-          <span class="pc">Plataforma principal · desde 2020<br>Swift, Xcode, ARKit, CocoaPods, Firebase</span>
+          <span class="pc"><span class="es">Plataforma principal · desde 2020</span><span class="en">Main platform · since 2020</span><br>Swift, Xcode, ARKit, CocoaPods, Firebase</span>
         </button>
         <button class="plat" type="button" data-filter="Android" aria-pressed="false">
           <svg viewBox="0 0 24 24" aria-hidden="true"><g stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M8.2 7.2 6.8 4.9M15.8 7.2l1.4-2.3"/></g><path d="M5 14.5a7 7 0 0 1 14 0z" fill="currentColor"/><rect x="5" y="15.7" width="14" height="5.3" rx="1.8" fill="currentColor"/><circle cx="9.2" cy="11.6" r="1" fill="var(--bg)"/><circle cx="14.8" cy="11.6" r="1" fill="var(--bg)"/></svg>
           <span class="pn">Android</span>
-          <span class="pc">Kotlin y Java · 2023 – 2024</span>
+          <span class="pc"><span class="es">Kotlin y Java · 2023 – 2024</span><span class="en">Kotlin and Java · 2023 – 2024</span></span>
         </button>
         <button class="plat" type="button" data-filter="React Native" aria-pressed="false">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><ellipse cx="12" cy="12" rx="10" ry="4"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4" transform="rotate(120 12 12)"/><circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none"/></svg>
@@ -241,30 +309,33 @@
     </div>
   </section>
 
-  <section id="habilidades">
-    <div class="head"><h2>Habilidades</h2></div>
+  <section id="habilidades" class="reveal">
+    <div class="head"><h2><span class="es">Habilidades</span><span class="en">Skills</span></h2></div>
     <div class="panel">
-      <p class="hint">Pulsa una habilidad o una plataforma para ver en qué puestos y proyectos la he aplicado.</p>
+      <p class="hint">
+        <span class="es">Pulsa una habilidad o una plataforma para ver en qué puestos y proyectos la he aplicado.</span>
+        <span class="en">Tap a skill or a platform to see which roles and projects I used it in.</span>
+      </p>
       <div class="groups" id="groups"></div>
     </div>
   </section>
 
-  <!-- Formato de data-skills: "Grupo:Habilidad" separadas por comas -->
-  <section id="experiencia">
-    <div class="head"><h2>Experiencia</h2></div>
+  <!-- Formato de data-skills: "Grupo:Habilidad" separadas por comas (las claves van en español; el JS las traduce) -->
+  <section id="experiencia" class="reveal">
+    <div class="head"><h2><span class="es">Experiencia laboral</span><span class="en">Work experience</span></h2></div>
     <div class="panel">
 
       <details class="job" open data-skills="Ecosistema iOS:iOS,Ecosistema iOS:Swift,Herramientas y proceso:Analítica y etiquetado de eventos">
         <summary>
-          <h3>iOS Software Engineer <span class="org">· Nomasystems S.L.</span></h3>
-          <div class="when">Abr. 2024 – Actualidad · Remoto</div>
+          <h3>iOS Software Engineer <span class="org">· <a href="https://www.nomasystems.com" target="_blank" rel="noopener">Nomasystems S.L.</a></span></h3>
+          <div class="when"><span class="es">Abr. 2024 – Actualidad</span><span class="en">Apr. 2024 – Present</span></div>
         </summary>
         <div class="body">
-          <p>Desarrollo y mantenimiento de la app iOS en Swift, con foco en el dato y la analítica.</p>
+          <p><span class="es">Desarrollo y mantenimiento de la app iOS en Swift, con foco en el dato y la analítica.</span><span class="en">Development and maintenance of the iOS app in Swift, with a focus on data and analytics.</span></p>
           <ul>
-            <li>Integración de sistemas de analítica externos y herramientas propias para medir con precisión lo que ocurre en la app.</li>
-            <li>Implementación y revisión del etiquetado de eventos, y validación de la calidad de la información recogida.</li>
-            <li>Colaboración con producto y negocio para que dispongan de datos fiables en la toma de decisiones.</li>
+            <li><span class="es">Integración de sistemas de analítica externos y herramientas propias para medir con precisión lo que ocurre en la app.</span><span class="en">Integration of external analytics systems and in-house tools to measure accurately what happens in the app.</span></li>
+            <li><span class="es">Implementación y revisión del etiquetado de eventos, y validación de la calidad de la información recogida.</span><span class="en">Implementation and review of event tagging, and validation of the quality of the data collected.</span></li>
+            <li><span class="es">Colaboración con producto y negocio para que dispongan de datos fiables en la toma de decisiones.</span><span class="en">Collaboration with product and business teams so they have reliable data for decision-making.</span></li>
           </ul>
           <ul class="tags"></ul>
         </div>
@@ -272,16 +343,16 @@
 
       <details class="job" data-skills="Ecosistema iOS:iOS,Ecosistema iOS:Swift,Ecosistema iOS:Xcode,Ecosistema iOS:ARKit,Ecosistema iOS:CocoaPods,Ecosistema iOS:Arquitectura VIPER,Ecosistema iOS:Firebase,Herramientas y proceso:Git,Herramientas y proceso:Sourcetree,Herramientas y proceso:Agile / Scrum">
         <summary>
-          <h3>Desarrollador iOS <span class="org">· IECISA e Inetum</span></h3>
-          <div class="when">Feb. 2020 – Abr. 2024 · Híbrido y remoto</div>
+          <h3><span class="es">Desarrollador iOS</span><span class="en">iOS Developer</span> <span class="org">· IECISA <span class="es">e</span><span class="en">and</span> Inetum</span></h3>
+          <div class="when"><span class="es">Feb. 2020 – Abr. 2024</span><span class="en">Feb. 2020 – Apr. 2024</span></div>
         </summary>
         <div class="body">
           <ul>
-            <li>Mi trayectoria en iOS empezó con unas prácticas en IECISA (feb.–jul. 2020): app nativa en Swift con arquitectura VIPER, dentro del convenio FORTE entre la <abbr title="Escuela Superior de Informática de Ciudad Real">ESI</abbr> (<abbr title="Universidad de Castilla-La Mancha">UCLM</abbr>) e IECISA.</li>
-            <li>Desarrollo y mantenimiento de apps iOS nativas en Swift con Xcode, en equipos ágiles, autoorganizados y distribuidos.</li>
-            <li>Realidad aumentada, navegación y geolocalización con ARKit.</li>
-            <li>Integración de librerías de terceros con CocoaPods y de Google Firebase, y optimización del rendimiento en dispositivos iOS.</li>
-            <li>Integración de APIs y servicios web; control de versiones con Git y Sourcetree.</li>
+            <li><span class="es">Mi trayectoria en iOS empezó con unas prácticas en IECISA (feb.–jul. 2020): app nativa en Swift con arquitectura VIPER, dentro del convenio FORTE entre la <abbr class="esi">ESI</abbr> (<abbr class="uclm">UCLM</abbr>) e IECISA.</span><span class="en">My iOS career began with an internship at IECISA (Feb–Jul 2020): a native Swift app with VIPER architecture, under the FORTE agreement between the <abbr class="esi">ESI</abbr> (<abbr class="uclm">UCLM</abbr>) and IECISA.</span></li>
+            <li><span class="es">Desarrollo y mantenimiento de apps iOS nativas en Swift con Xcode, en equipos ágiles, autoorganizados y distribuidos.</span><span class="en">Development and maintenance of native iOS apps in Swift with Xcode, in agile, self-organised, distributed teams.</span></li>
+            <li><span class="es">Realidad aumentada, navegación y geolocalización con ARKit.</span><span class="en">Augmented reality, navigation and geolocation with ARKit.</span></li>
+            <li><span class="es">Integración de librerías de terceros con CocoaPods y de Google Firebase, y optimización del rendimiento en dispositivos iOS.</span><span class="en">Integration of third-party libraries with CocoaPods and Google Firebase, and performance optimisation on iOS devices.</span></li>
+            <li><span class="es">Integración de APIs y servicios web; control de versiones con Git y Sourcetree.</span><span class="en">Integration of APIs and web services; version control with Git and Sourcetree.</span></li>
           </ul>
           <ul class="tags"></ul>
         </div>
@@ -289,14 +360,14 @@
 
       <details class="job" data-skills="Android y multiplataforma:Android,Android y multiplataforma:Kotlin,Android y multiplataforma:Java,Android y multiplataforma:Android Studio,Android y multiplataforma:Gradle,Herramientas y proceso:Git,Herramientas y proceso:Sourcetree,Herramientas y proceso:Agile / Scrum">
         <summary>
-          <h3>Desarrollador Android <span class="org">· Inetum</span></h3>
-          <div class="when">Abr. 2023 – Mar. 2024 · Remoto</div>
+          <h3><span class="es">Desarrollador Android</span><span class="en">Android Developer</span> <span class="org">· Inetum</span></h3>
+          <div class="when"><span class="es">Abr. 2023 – Mar. 2024</span><span class="en">Apr. 2023 – Mar. 2024</span></div>
         </summary>
         <div class="body">
           <ul>
-            <li>Diseño, desarrollo y mantenimiento de apps nativas en Java y Kotlin.</li>
-            <li>Gestión de compilación con Gradle y trabajo en equipos multidisciplinares y ágiles.</li>
-            <li>Integración de APIs y servicios web.</li>
+            <li><span class="es">Diseño, desarrollo y mantenimiento de apps nativas en Java y Kotlin.</span><span class="en">Design, development and maintenance of native apps in Java and Kotlin.</span></li>
+            <li><span class="es">Gestión de compilación con Gradle y trabajo en equipos multidisciplinares y ágiles.</span><span class="en">Build management with Gradle and work in multidisciplinary, agile teams.</span></li>
+            <li><span class="es">Integración de APIs y servicios web.</span><span class="en">Integration of APIs and web services.</span></li>
           </ul>
           <ul class="tags"></ul>
         </div>
@@ -304,14 +375,14 @@
 
       <details class="job" data-skills="Ecosistema iOS:Xcode,Android y multiplataforma:React Native,Android y multiplataforma:TypeScript,Android y multiplataforma:Android Studio,Herramientas y proceso:Azure DevOps,Herramientas y proceso:Visual Studio Code,Herramientas y proceso:Git">
         <summary>
-          <h3>Desarrollador de apps híbridas <span class="org">· Inetum</span></h3>
-          <div class="when">Jun. 2022 – Ene. 2023 · Remoto</div>
+          <h3><span class="es">Desarrollador de apps híbridas</span><span class="en">Hybrid Apps Developer</span> <span class="org">· Inetum</span></h3>
+          <div class="when"><span class="es">Jun. 2022 – Ene. 2023</span><span class="en">Jun. 2022 – Jan. 2023</span></div>
         </summary>
         <div class="body">
           <ul>
-            <li>Desarrollo con React Native y TypeScript para iOS y Android, usando Xcode y Android Studio.</li>
-            <li>Optimización del rendimiento y la eficiencia en ambas plataformas.</li>
-            <li>Integración de APIs, resolución proactiva de problemas y participación activa en las pruebas.</li>
+            <li><span class="es">Desarrollo con React Native y TypeScript para iOS y Android, usando Xcode y Android Studio.</span><span class="en">Development with React Native and TypeScript for iOS and Android, using Xcode and Android Studio.</span></li>
+            <li><span class="es">Optimización del rendimiento y la eficiencia en ambas plataformas.</span><span class="en">Performance and efficiency optimisation on both platforms.</span></li>
+            <li><span class="es">Integración de APIs, resolución proactiva de problemas y participación activa en las pruebas.</span><span class="en">API integration, proactive problem solving and active participation in testing.</span></li>
           </ul>
           <ul class="tags"></ul>
         </div>
@@ -319,94 +390,137 @@
     </div>
   </section>
 
+  <section id="academica" class="reveal">
+    <div class="head"><h2><span class="es">Experiencia académica</span><span class="en">Academic experience</span></h2></div>
+    <div class="acad">
+
+      <div class="panel studies">
+        <h3><span class="es">Estudios</span><span class="en">Studies</span></h3>
+        <div class="study-grid">
+          <div class="study">
+            <div><b><span class="es">Grado en Geografía e Historia</span><span class="en">Bachelor's in Geography and History</span></b><span class="sub">UNED</span></div>
+            <span class="date"><span class="es">Oct. 2026 – Actualidad</span><span class="en">Oct. 2026 – Present</span></span>
+          </div>
+          <div class="study">
+            <div><b><span class="es">Máster en Inteligencia Artificial (MIA)</span><span class="en">MSc in Artificial Intelligence (MIA)</span></b><span class="sub"><abbr class="uclm">UCLM</abbr></span></div>
+            <span class="date">Sep. 2025 – Sep. 2026</span>
+          </div>
+          <div class="study">
+            <div><b><span class="es">Máster en Ingeniería Informática (MUII)</span><span class="en">MSc in Computer Engineering (MUII)</span></b><span class="sub"><abbr class="uclm">UCLM</abbr></span></div>
+            <span class="date">Sep. 2021 – Oct. 2023</span>
+          </div>
+          <div class="study">
+            <div><b><span class="es">Grado en Ingeniería Informática</span><span class="en">Bachelor's in Computer Engineering</span></b><span class="sub"><span class="es">Mención en Ingeniería de Software</span><span class="en">Specialisation in Software Engineering</span> · <abbr class="uclm">UCLM</abbr></span></div>
+            <span class="date">Sep. 2016 – Jul. 2020</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="duo">
+        <div class="panel">
+          <h3><span class="es">Reconocimientos</span><span class="en">Awards</span></h3>
+          <div class="entry">
+            <div><b><span class="es">Premio Máquina de Turing 2023 al mejor TFG o TFM</span><span class="en">Turing Machine Award 2023 for best Bachelor's or Master's thesis</span></b><span class="sub"><span class="es">Escuela Superior de Informática de Ciudad Real</span><span class="en">School of Computer Science of Ciudad Real (ESI)</span> · <a href="https://esi.uclm.es/index.php/2023/11/14/ganadores-iii-premios-maquina-de-turing/" target="_blank" rel="noopener"><span class="es">Ver</span><span class="en">View</span></a></span></div>
+            <span class="date">Nov. 2023</span>
+          </div>
+          <div class="entry">
+            <div><b><span class="es">Premios para TFG y TFM sobre discapacidad y necesidades educativas especiales</span><span class="en">Awards for Bachelor's and Master's theses on disability and special educational needs</span></b><span class="sub"><span class="es">Premio TFM en materia de discapacidad</span><span class="en">Master's thesis award on disability</span> · <abbr class="uclm">UCLM</abbr> <span class="es">y</span><span class="en">and</span> Banco Santander · <a href="https://www.uclm.es/noticias/noticias2023/diciembre/ciudad-real/premios_tfg_tfm_discapacidad" target="_blank" rel="noopener"><span class="es">Ver</span><span class="en">View</span></a></span></div>
+            <span class="date">Oct. 2023</span>
+          </div>
+        </div>
+        <div class="panel">
+          <h3><span class="es">Certificaciones e idiomas</span><span class="en">Certifications and languages</span></h3>
+          <div class="entry">
+            <div><b>Professional Scrum Master (PSM I)</b><span class="sub">Scrum.org</span></div>
+            <span class="date">Nov. 2021</span>
+          </div>
+          <div class="entry">
+            <div><b>Preliminary English Test (B1)</b><span class="sub">University of Cambridge</span></div>
+            <span class="date">Jul. 2016</span>
+          </div>
+          <div class="entry">
+            <div><b><span class="es">Idiomas</span><span class="en">Languages</span></b><span class="sub"><span class="es">Español nativo · Inglés B1</span><span class="en">Spanish (native) · English B1</span></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ✏️ Memorias en PDF: sube los archivos a la carpeta docs/ con estos mismos nombres.
        Si no quieres publicar una memoria, borra su línea <a class="doc"> -->
-  <section id="proyectos">
-    <div class="head"><h2>Proyectos académicos destacados</h2></div>
+  <section id="proyectos" class="reveal">
+    <div class="head"><h2><span class="es">Proyectos académicos destacados</span><span class="en">Featured academic projects</span></h2></div>
     <div class="projects">
 
       <article class="project" data-skills="Android y multiplataforma:Android,IA y realidad inmersiva:YOLOv8,IA y realidad inmersiva:Visión por computador,IA y realidad inmersiva:Bluetooth LE">
-        <span class="kind">TFM Inteligencia Artificial · <abbr title="Universidad de Castilla-La Mancha">UCLM</abbr> · 2026</span>
-        <h3>Detección de amenazas aéreas con IA, móvil y cámara deportiva</h3>
-        <p>App Android que se conecta por Bluetooth LE, WiFi y HTTP (Open GoPro) a una GoPro Hero 12, recibe el vídeo H.264 y ejecuta en el propio móvil un modelo YOLOv8n entrenado con el dataset Airborne Object Tracking de Amazon Prime Air. Superpone las detecciones en una interfaz pensada para aviación.</p>
+        <span class="kind"><span class="es">TFM Inteligencia Artificial</span><span class="en">MSc thesis in Artificial Intelligence</span> · <abbr class="uclm">UCLM</abbr> · 2026</span>
+        <h3><span class="es">Detección de amenazas aéreas con IA, móvil y cámara deportiva</span><span class="en">Aerial threat detection with AI, a smartphone and an action camera</span></h3>
+        <p><span class="es">App Android que se conecta por Bluetooth LE, WiFi y HTTP (Open GoPro) a una GoPro Hero 12, recibe el vídeo H.264 y ejecuta en el propio móvil un modelo YOLOv8n entrenado con el dataset Airborne Object Tracking de Amazon Prime Air. Superpone las detecciones en una interfaz pensada para aviación.</span><span class="en">Android app that connects over Bluetooth LE, WiFi and HTTP (Open GoPro) to a GoPro Hero 12, receives the H.264 video stream and runs a YOLOv8n model on the phone itself, trained on Amazon Prime Air's Airborne Object Tracking dataset. It overlays detections on an interface designed for aviation.</span></p>
         <ul class="tags"></ul>
         <div class="links">
-          <a class="doc" href="docs/memoria-tfm-ia.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>Memoria completa (PDF)</a>
+          <a class="doc" href="docs/memoria-tfm-ia.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg><span class="es">Memoria completa (PDF)</span><span class="en">Full thesis (PDF)</span></a>
         </div>
       </article>
 
       <article class="project" data-skills="IA y realidad inmersiva:Realidad virtual,IA y realidad inmersiva:Rehabilitación y salud">
-        <span class="kind">TFM Ingeniería Informática · <abbr title="Universidad de Castilla-La Mancha">UCLM</abbr> · 2023</span>
-        <h3>Realidad virtual para porteros de balonmano y rehabilitación</h3>
-        <p>Aplicación inmersiva que genera entrenamientos dinámicos para mejorar colocación, reacción y toma de decisiones. Adaptada al balonmano adaptado, sirve a pacientes con lesión medular para rehabilitar miembros superiores y mejorar la estabilidad del tronco. Premiada por la ESI y por la UCLM con Banco Santander.</p>
+        <span class="kind"><span class="es">TFM Ingeniería Informática</span><span class="en">MSc thesis in Computer Engineering</span> · <abbr class="uclm">UCLM</abbr> · 2023</span>
+        <h3><span class="es">Realidad virtual para porteros de balonmano y rehabilitación</span><span class="en">Virtual reality for handball goalkeepers and rehabilitation</span></h3>
+        <p><span class="es">Aplicación inmersiva que genera entrenamientos dinámicos para mejorar colocación, reacción y toma de decisiones. Adaptada al balonmano adaptado, sirve a pacientes con lesión medular para rehabilitar miembros superiores y mejorar la estabilidad del tronco. Premiada por la <abbr class="esi">ESI</abbr> y por la <abbr class="uclm">UCLM</abbr> con Banco Santander.</span><span class="en">Immersive app that dynamically generates training to improve positioning, reaction and decision-making. Adapted to adapted handball, it helps patients with spinal cord injury rehabilitate their upper limbs and improve trunk stability. Awarded by the <abbr class="esi">ESI</abbr> and by <abbr class="uclm">UCLM</abbr> with Banco Santander.</span></p>
         <ul class="tags"></ul>
         <div class="links">
-          <a class="doc" href="docs/memoria-tfm-realidad-virtual.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>Memoria completa (PDF)</a>
-          <a class="doc" href="#publicaciones">Artículo científico (ICEIS 2024)</a>
-          <a class="doc" href="https://esi.uclm.es/index.php/2023/11/14/ganadores-iii-premios-maquina-de-turing/">Premio Máquina de Turing</a>
+          <a class="doc" href="docs/memoria-tfm-realidad-virtual.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg><span class="es">Memoria completa (PDF)</span><span class="en">Full thesis (PDF)</span></a>
+          <a class="doc" href="#publicaciones"><span class="es">Artículo científico (ICEIS 2024)</span><span class="en">Scientific paper (ICEIS 2024)</span></a>
+          <a class="doc" href="https://esi.uclm.es/index.php/2023/11/14/ganadores-iii-premios-maquina-de-turing/" target="_blank" rel="noopener"><span class="es">Premio Máquina de Turing</span><span class="en">Turing Machine Award</span></a>
         </div>
       </article>
 
       <article class="project" data-skills="IA y realidad inmersiva:Realidad aumentada,Herramientas y proceso:Mapas y geolocalización">
-        <span class="kind">TFG Ingeniería Informática · <abbr title="Universidad de Castilla-La Mancha">UCLM</abbr> · 2020</span>
-        <h3>Smart Mallorca: app de turismo</h3>
-        <p>App móvil para la Consejería de Turismo de Mallorca. Permite interactuar con los recursos turísticos de la isla mediante realidad aumentada y mapas personalizables.</p>
+        <span class="kind"><span class="es">TFG Ingeniería Informática</span><span class="en">Bachelor's thesis in Computer Engineering</span> · <abbr class="uclm">UCLM</abbr> · 2020</span>
+        <h3><span class="es">Smart Mallorca: app de turismo</span><span class="en">Smart Mallorca: tourism app</span></h3>
+        <p><span class="es">App móvil para la Consejería de Turismo de Mallorca. Permite interactuar con los recursos turísticos de la isla mediante realidad aumentada y mapas personalizables.</span><span class="en">Mobile app for the Mallorca Tourism Department. It lets visitors interact with the island's tourist resources through augmented reality and customisable maps.</span></p>
         <ul class="tags"></ul>
         <div class="links">
-          <a class="doc" href="docs/memoria-tfg-smart-mallorca.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>Memoria completa (PDF)</a>
+          <a class="doc" href="docs/memoria-tfg-smart-mallorca.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg><span class="es">Memoria completa (PDF)</span><span class="en">Full thesis (PDF)</span></a>
         </div>
       </article>
     </div>
   </section>
 
-  <section id="publicaciones">
-    <div class="head"><h2>Publicación científica</h2></div>
+  <section id="publicaciones" class="reveal">
+    <div class="head"><h2><span class="es">Publicaciones</span><span class="en">Publications</span></h2></div>
     <div class="projects">
-      <article class="project" style="grid-column: 1 / -1" data-skills="IA y realidad inmersiva:Realidad virtual,IA y realidad inmersiva:Rehabilitación y salud">
-        <span class="kind">Artículo en congreso · ICEIS 2024</span>
+      <article class="project" data-skills="IA y realidad inmersiva:Realidad virtual,IA y realidad inmersiva:Rehabilitación y salud">
+        <span class="kind"><span class="es">Artículo en congreso</span><span class="en">Conference paper</span> · ICEIS 2024</span>
         <h3>Virtual Reality-Based Adapted Handball Serious Game for Upper Limb Rehabilitation in Spinal Cord Injured Patients</h3>
-        <p>Javier Albusac, Vanesa Herrera, <b style="color: var(--ink)">Oscar Dominguez-Ocaña</b>, Eusebio Angulo, Ana Reyes-Guzmán y David Vallejo.</p>
-        <p>26th International Conference on Enterprise Information Systems (ICEIS 2024), Angers (Francia), 28–30 de abril de 2024. Sesión Human-Computer Interaction, pp. 337–347. SCITEPRESS.</p>
+        <p>Javier Albusac, Vanesa Herrera, <b>Oscar Dominguez-Ocaña</b>, Eusebio Angulo, Ana Reyes-Guzmán <span class="es">y</span><span class="en">and</span> David Vallejo.</p>
+        <p><span class="es">26th International Conference on Enterprise Information Systems (ICEIS 2024), Angers (Francia), 28–30 de abril de 2024. Sesión Human-Computer Interaction, pp. 337–347. SCITEPRESS.</span><span class="en">26th International Conference on Enterprise Information Systems (ICEIS 2024), Angers (France), April 28–30, 2024. Human-Computer Interaction session, pp. 337–347. SCITEPRESS.</span></p>
         <ul class="tags"></ul>
         <div class="links">
           <!-- ⚠️ Deja este botón solo si SCITEPRESS te permite publicar el PDF. Si no, bórralo y usa solo el DOI -->
-          <a class="doc" href="docs/articulo-iceis-2024.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg>Artículo completo (PDF)</a>
-          <a class="doc" href="https://doi.org/10.5220/0012554600003690" target="_blank" rel="noopener">Ver en la editorial (DOI)</a>
+          <a class="doc" href="docs/articulo-iceis-2024.pdf" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5"/></svg><span class="es">Artículo completo (PDF)</span><span class="en">Full paper (PDF)</span></a>
+          <a class="doc" href="https://doi.org/10.5220/0012554600003690" target="_blank" rel="noopener"><span class="es">Ver en la editorial (DOI)</span><span class="en">View at publisher (DOI)</span></a>
         </div>
       </article>
+
+      <!-- ✏️ Añade aquí la revista/congreso, el año y el DOI cuando esté publicado, y un botón .doc con el enlace -->
+      <!--article class="project" data-skills="IA y realidad inmersiva:Realidad virtual,IA y realidad inmersiva:Rehabilitación y salud">
+        <span class="kind"><span class="es">Mención en agradecimientos</span><span class="en">Acknowledgment</span></span>
+        <h3>Virtual Reality-Assisted Handball Goalkeeper Training for Upper Limb Rehabilitation</h3>
+        <p>Vanesa Herrera, Javier Albusac, Eusebio Angulo, Carlos Glez-Morcillo, Ana de los Reyes <span class="es">y</span><span class="en">and</span> David Vallejo.</p>
+        <p><span class="es">Los autores agradecen mi participación directa en el desarrollo del software del serious game.</span><span class="en">The authors acknowledge my direct involvement in the software development of the serious game.</span></p>
+        <ul class="tags"></ul>
+    </article-->
     </div>
   </section>
 
-  <section id="formacion">
-    <div class="head"><h2>Formación y reconocimientos</h2></div>
-    <div class="cols">
-      <div class="panel">
-        <h3>Estudios</h3>
-        <div class="entry"><b>Grado en Geografía e Historia</b><span>UNED · Oct. 2026 – Actualidad</span></div>
-        <div class="entry"><b>Máster en Inteligencia Artificial (MIA)</b><span><abbr title="Universidad de Castilla-La Mancha">UCLM</abbr> · 2025 – 2026</span></div>
-        <div class="entry"><b>Máster en Ingeniería Informática (MUII)</b><span><abbr title="Universidad de Castilla-La Mancha">UCLM</abbr> · 2021 – 2023</span></div>
-        <div class="entry"><b>Grado en Ingeniería Informática, mención en Ingeniería de Software</b><span><abbr title="Universidad de Castilla-La Mancha">UCLM</abbr> · 2016 – 2020</span></div>
-      </div>
-      <div class="panel">
-        <h3>Reconocimientos</h3>
-        <div class="entry"><b>2.º Premio Máquina de Turing 2023 al mejor TFG o TFM</b><span><abbr title="Escuela Superior de Informática de Ciudad Real">ESI</abbr> · Nov. 2023 · <a href="https://esi.uclm.es/index.php/2023/11/14/ganadores-iii-premios-maquina-de-turing/">Ver</a></span></div>
-        <div class="entry"><b>Premio TFM en materia de discapacidad</b><span><abbr title="Universidad de Castilla-La Mancha">UCLM</abbr> y Banco Santander · Oct. 2023 · <a href="https://www.uclm.es/noticias/noticias2023/diciembre/ciudad-real/premios_tfg_tfm_discapacidad">Ver</a></span></div>
-      </div>
-      <div class="panel">
-        <h3>Certificaciones e idiomas</h3>
-        <div class="entry"><b>Professional Scrum Master (PSM I)</b><span>Scrum.org · Nov. 2021</span></div>
-        <div class="entry"><b>Preliminary English Test (B1)</b><span>University of Cambridge · Jul. 2016</span></div>
-        <div class="entry"><b>Idiomas</b><span>Español nativo · Inglés B1</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="contacto">
+  <section id="contacto" class="reveal">
     <div class="panel contact">
-      <h2>¿Hablamos?</h2>
-      <p style="margin: 12px auto 18px">La forma más rápida de contactar conmigo es por LinkedIn.</p>
-      <a class="mail" href="https://www.linkedin.com/in/oscardominguezocana/">linkedin.com/in/oscardominguezocana</a>
-      <!-- Para añadir tu correo: <a class="mail" href="mailto:tu@email.com">tu@email.com</a> -->
+      <h2><span class="es">¿Hablamos?</span><span class="en">Shall we talk?</span></h2>
+      <p style="margin: 12px auto 18px"><span class="es">Escríbeme por correo o conecta conmigo en LinkedIn.</span><span class="en">Write to me by email or connect on LinkedIn.</span></p>
+      <a class="mail" href="mailto:oscardominguezoc@gmail.com">oscardominguezoc@gmail.com</a>
+      <div class="actions" style="justify-content: center; margin-top: 22px">
+        <a class="btn" href="https://www.linkedin.com/in/oscardominguezocana/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
     </div>
   </section>
 </main>
@@ -414,78 +528,132 @@
 <footer>© 2026 Óscar Domínguez Ocaña</footer>
 
 <div class="toast" id="toast" hidden role="status">
-  <span>Filtrando por <b id="toastLabel"></b></span>
-  <button type="button" id="clear">Quitar filtro</button>
+  <span><span class="es">Filtrando por</span><span class="en">Filtering by</span> <b id="toastLabel"></b></span>
+  <button type="button" id="clear"><span class="es">Quitar filtro</span><span class="en">Clear filter</span></button>
 </div>
 
 <script>
+  /* ---------- Traducciones de etiquetas generadas por JS ---------- */
+  const TR = {
+    groups: {
+      'Ecosistema iOS': 'iOS ecosystem',
+      'Android y multiplataforma': 'Android & cross-platform',
+      'Herramientas y proceso': 'Tools & process',
+      'IA y realidad inmersiva': 'AI & immersive reality'
+    },
+    skills: {
+      'Analítica y etiquetado de eventos': 'Analytics & event tagging',
+      'Arquitectura VIPER': 'VIPER architecture',
+      'Visión por computador': 'Computer vision',
+      'Realidad virtual': 'Virtual reality',
+      'Realidad aumentada': 'Augmented reality',
+      'Rehabilitación y salud': 'Rehabilitation & health',
+      'Mapas y geolocalización': 'Maps & geolocation'
+    }
+  };
+  const ABBR = {
+    uclm: { es: 'Universidad de Castilla-La Mancha', en: 'University of Castilla-La Mancha' },
+    esi: { es: 'Escuela Superior de Informática de Ciudad Real', en: 'School of Computer Science of Ciudad Real' }
+  };
+  const META = {
+    es: ['Óscar Domínguez Ocaña · iOS Software Engineer', 'Óscar Domínguez Ocaña, iOS Software Engineer especializado en Swift y Xcode, con máster en Inteligencia Artificial.'],
+    en: ['Óscar Domínguez Ocaña · iOS Software Engineer', 'Óscar Domínguez Ocaña, iOS Software Engineer specialised in Swift and Xcode, with a master\'s degree in Artificial Intelligence.']
+  };
+
+  let lang = document.documentElement.lang === 'en' ? 'en' : 'es';
+  let active = null;
+  const t = (map, k) => (lang === 'en' && map[k]) || k;
+
+  /* ---------- Habilidades y filtro ---------- */
   const items = [...document.querySelectorAll('[data-skills]')];
   const parse = el => el.dataset.skills.split(',').map(s => { const [g, n] = s.split(':'); return { g, n }; });
-
-  // Orden de grupos y prioridad iOS dentro del primer grupo
   const groupOrder = ['Ecosistema iOS', 'Android y multiplataforma', 'Herramientas y proceso', 'IA y realidad inmersiva'];
   const iosOrder = ['iOS', 'Swift', 'Xcode', 'ARKit', 'CocoaPods', 'Arquitectura VIPER', 'Firebase'];
+  const rank = (arr, x) => arr.indexOf(x) < 0 ? 99 : arr.indexOf(x);
 
   const byGroup = {};
   items.forEach(el => parse(el).forEach(({ g, n }) => { (byGroup[g] = byGroup[g] || new Set()).add(n); }));
-
+  const groupNames = Object.keys(byGroup).sort((a, b) => rank(groupOrder, a) - rank(groupOrder, b));
   const groupsEl = document.getElementById('groups');
   const toast = document.getElementById('toast');
-  let active = null;
 
-  const names = Object.keys(byGroup).sort((a, b) => {
-    const ia = groupOrder.indexOf(a), ib = groupOrder.indexOf(b);
-    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib);
-  });
-
-  names.forEach((g, i) => {
-    const box = document.createElement('div');
-    box.className = 'group' + (i === 0 ? ' feat' : '');
-    box.innerHTML = '<h3></h3><div class="chips" role="group"></div>';
-    box.querySelector('h3').textContent = g;
-    box.querySelector('.chips').setAttribute('aria-label', g);
-    const list = [...byGroup[g]];
-    if (g === groupOrder[0]) {
-      list.sort((a, b) => (iosOrder.indexOf(a) < 0 ? 99 : iosOrder.indexOf(a)) - (iosOrder.indexOf(b) < 0 ? 99 : iosOrder.indexOf(b)));
-    } else { list.sort((a, b) => a.localeCompare(b, 'es')); }
-    list.forEach(n => {
-      const b = document.createElement('button');
-      b.type = 'button'; b.className = 'chip'; b.dataset.filter = n; b.textContent = n; b.setAttribute('aria-pressed', 'false');
-      box.querySelector('.chips').appendChild(b);
+  function renderSkills() {
+    groupsEl.innerHTML = '';
+    groupNames.forEach((g, i) => {
+      const box = document.createElement('div');
+      box.className = 'group' + (i === 0 ? ' feat' : '');
+      box.innerHTML = '<h3></h3><div class="chips" role="group"></div>';
+      box.querySelector('h3').textContent = t(TR.groups, g);
+      box.querySelector('.chips').setAttribute('aria-label', t(TR.groups, g));
+      const list = [...byGroup[g]];
+      if (i === 0) list.sort((a, b) => rank(iosOrder, a) - rank(iosOrder, b));
+      else list.sort((a, b) => t(TR.skills, a).localeCompare(t(TR.skills, b), lang));
+      list.forEach(n => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'chip'; b.dataset.filter = n; b.textContent = t(TR.skills, n);
+        b.setAttribute('aria-pressed', 'false');
+        b.addEventListener('click', () => apply(active === n ? null : n));
+        box.querySelector('.chips').appendChild(b);
+      });
+      groupsEl.appendChild(box);
     });
-    groupsEl.appendChild(box);
-  });
-
-  items.forEach(el => {
-    el.querySelector('.tags').innerHTML = parse(el).map(({ n }) => '<li data-s="' + n + '">' + n + '</li>').join('');
-  });
-
-  // Todos los botones con data-filter (chips y tarjetas de plataforma)
-  document.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => apply(active === b.dataset.filter ? null : b.dataset.filter)));
-  document.getElementById('clear').addEventListener('click', () => apply(null));
-
-  function apply(skill) {
-    active = skill;
-    document.body.classList.toggle('filtering', !!skill);
-    toast.hidden = !skill;
-    document.getElementById('toastLabel').textContent = skill || '';
-    document.querySelectorAll('[data-filter]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === skill)));
     items.forEach(el => {
-      const has = !!skill && parse(el).some(({ n }) => n === skill);
+      el.querySelector('.tags').innerHTML = parse(el).map(({ n }) => '<li data-s="' + n + '">' + t(TR.skills, n) + '</li>').join('');
+    });
+    refresh();
+  }
+
+  function apply(skill) { active = skill; refresh(); }
+
+  function refresh() {
+    document.body.classList.toggle('filtering', !!active);
+    toast.hidden = !active;
+    document.getElementById('toastLabel').textContent = active ? t(TR.skills, active) : '';
+    document.querySelectorAll('[data-filter]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === active)));
+    items.forEach(el => {
+      const has = !!active && parse(el).some(({ n }) => n === active);
       el.classList.toggle('match', has);
       if (el.tagName === 'DETAILS' && has) el.open = true;
-      el.querySelectorAll('.tags li').forEach(li => li.classList.toggle('on', li.dataset.s === skill));
+      el.querySelectorAll('.tags li').forEach(li => li.classList.toggle('on', li.dataset.s === active));
     });
   }
 
-  // Menú: resalta la sección visible
+  document.querySelectorAll('.plat[data-filter]').forEach(b => b.addEventListener('click', () => apply(active === b.dataset.filter ? null : b.dataset.filter)));
+  document.getElementById('clear').addEventListener('click', () => apply(null));
+
+  /* ---------- Idioma ---------- */
+  function setLang(l, save) {
+    lang = l;
+    document.documentElement.lang = l;
+    if (save) { try { localStorage.setItem('cv-lang', l); } catch (e) {} }
+    document.title = META[l][0];
+    document.querySelector('meta[name="description"]').setAttribute('content', META[l][1]);
+    document.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.lang === l)));
+    document.querySelectorAll('[data-aria]').forEach(el => el.setAttribute('aria-label', el.dataset.aria.split('|')[l === 'en' ? 1 : 0]));
+    document.querySelectorAll('[data-alt]').forEach(el => el.setAttribute('alt', el.dataset.alt.split('|')[l === 'en' ? 1 : 0]));
+    Object.keys(ABBR).forEach(k => document.querySelectorAll('abbr.' + k).forEach(a => a.setAttribute('title', ABBR[k][l])));
+    renderSkills();
+  }
+  document.querySelectorAll('[data-lang]').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang, true)));
+  setLang(lang, false);
+
+  /* ---------- Menú: resalta la sección visible ---------- */
   const links = [...document.querySelectorAll('#nav a')];
-  const io = new IntersectionObserver(entries => {
+  const spy = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
     });
   }, { rootMargin: '-40% 0px -55% 0px' });
-  links.forEach(a => { const s = document.querySelector(a.getAttribute('href')); if (s) io.observe(s); });
+  links.forEach(a => { const s = document.querySelector(a.getAttribute('href')); if (s) spy.observe(s); });
+
+  /* ---------- Efecto de aparición al hacer scroll ---------- */
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: 0.06, rootMargin: '0px 0px -6% 0px' });
+    reveals.forEach(el => io.observe(el));
+  } else { reveals.forEach(el => el.classList.add('in')); }
 </script>
 </body>
 </html>
